@@ -1,0 +1,37 @@
+12.14:
+Properties类的值只能是String类型
+
+这个`serialize`方法是用来将一个Java对象序列化为一个字符串。以下是每条语句的作用和关联：
+
+1. `ByteArrayOutputStream bo = new ByteArrayOutputStream();`：创建一个`ByteArrayOutputStream`实例。这是一个可以捕获输出到字节数组的输出流。
+
+2. `ObjectOutputStream so = new ObjectOutputStream(bo);`：创建一个`ObjectOutputStream`实例，这是一个可以将Java对象写入到输出流的对象。这里，它被初始化为写入到前面创建的`ByteArrayOutputStream`实例。
+
+3. `so.writeObject(obj);`：使用`ObjectOutputStream`的`writeObject`方法将传入的对象`obj`写入到输出流中。这个过程被称为序列化。
+
+4. `so.flush();`：使用`ObjectOutputStream`的`flush`方法确保所有的数据都被写入到输出流中。这是一个重要的步骤，因为它确保了所有的数据都被正确地序列化。
+
+5. `return Base64.getEncoder().encodeToString(bo.toByteArray());`：使用`Base64`的`getEncoder`方法获取一个`Base64.Encoder`，然后使用`encodeToString`方法将`ByteArrayOutputStream`中的数据转换为Base64编码的字符串。这个步骤是为了确保序列化后的数据可以被安全地存储和传输，因为不是所有的数据都可以直接转换为字符串。
+
+6. `catch (IOException e) { throw new RuntimeException("Failed to serialize object", e); }`：这是一个错误处理块，它捕获并处理可能在序列化过程中抛出的`IOException`。如果出现了这种异常，那么方法会抛出一个新的`RuntimeException`，并附带原始的`IOException`作为其原因。
+
+这个方法的主要用途是将一个对象转换为一个字符串，这样这个对象就可以被存储到文件或数据库中，或者通过网络进行传输。然后，可以在需要的时候将这个字符串再转换回原来的对象。
+
+Properties类的值只能是String类型。这是因为Properties类继承自Hashtable<Object,Object>，但是它的各种方法，如setProperty，getProperty，store，load等，都假定键和值都是String类型。如果你尝试使用非String类型的值，可能会在运行时遇到ClassCastException。
+
+总结：完成了对象的序列化和反序列化，以及Properties类的使用。
+
+### 12.15:
+1. 服务端的启动与关闭
+2. 按照姓名+id的方式作为key
+3. 调整两端id的显示位置，放到第二个位置
+4. 联系人添加异常
+
+12.17:
+bug: 服务端关闭后，客户端无法正常退出(客户端在分页显示时，如果服务端断开链接，则会卡住)
+
+12.29：
+1. 客户端重连后不稳定，容易断线
+2. 服务端中的用户在用户重连并被登出后，没有从在线用户列表中移除
+3. 客户端重连后获取的通讯录数据不正确
+
